@@ -27,7 +27,7 @@ Here are the line detection and tracking results running on the ICL-NUIM dataset
 
 ## Running the Demo
 This demo will run the TP-LSD network on an image sequence and extract line segments from the images.  
-The tracks are formed by the LineTracker class which finds sequential pair-wise nearest neighbors using two-way matching of the lines' descriptors.
+The tracks are formed by the `LineTracker` class which finds sequential pair-wise nearest neighbors using two-way matching of the lines' descriptors.
 The demo script uses a helper class called `VideoStreamer` which can process inputs from three different input streams:
 
 1. A directory of images, such as .png or .jpg
@@ -36,10 +36,11 @@ The demo script uses a helper class called `VideoStreamer` which can process inp
 
 ### Additional useful command line parameters
 * Use `--method` to specify the method of line segments detection.
-* Use `--display_scale` to scale the output visualization image height and width (default: 2).
+* Use `--skip` to skip the first few images if the input is movie or directory (default: 1).
 * Use `--img_glob` to change the image file extension (default: *.png).
 * Press the `q` key to quit.
-
+--skip', type=int, default=1,
+      help='Images to skip if input is movie or directory (default: 1).')
 ### Run the demo on provided directory of images
 `python demo_line.py imgdir_path --method=tplsd` 
 

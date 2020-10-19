@@ -287,8 +287,6 @@ if __name__ == '__main__':
       help='Glob match if directory of images is specified (default: \'*.png\').')
   parser.add_argument('--skip', type=int, default=1,
       help='Images to skip if input is movie or directory (default: 1).')
-  parser.add_argument('--display_scale', type=int, default=2,
-      help='Factor to scale output visualization (default: 2).')
   parser.add_argument('--waitkey', type=int, default=1,
       help='OpenCV waitkey time in ms (default: 1).')
   opt = parser.parse_args()
