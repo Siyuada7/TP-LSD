@@ -6,12 +6,13 @@ This demo uses TP-LSD to detect line segments in an image. The repo contains two
 
 Full paper PDF: [TP-LSD: Tri-Points Based Line Segment Detector](https://arxiv.org/abs/2009.05505)
 
-Presentation PDF: Poster at ECCV 2018
+Presentation PDF: [Poster at ECCV 2020](Paper/ECCV-tplsd.pdf)
 
 Authors: Siyu Huang, Fangbo Qin, Pengfei Xiong, Ning Ding, Yijia He, Xiao Liu
 
 
-Here are the line detection results running on the ICL-NUIM dataset.
+Here are the line detection and tracking results running on the ICL-NUIM dataset.
+
 <img src="Paper/processed_icl.gif" width="240">
 
 ## Dependencies
@@ -22,10 +23,11 @@ Here are the line detection results running on the ICL-NUIM dataset.
 5. pytorch 1.1.0
 6. tensorboardX 
 7. opencv-python
-8. lbdmod: See lbdmod/Readme.md
+8. lbdmod: See lbdmod/README.md
 
 ## Running the Demo
-This demo will run the TP-LSD network on an image sequence and extract line segments from the images. 
+This demo will run the TP-LSD network on an image sequence and extract line segments from the images.  
+The tracks are formed by the LineTracker class which finds sequential pair-wise nearest neighbors using two-way matching of the lines' descriptors.
 The demo script uses a helper class called `VideoStreamer` which can process inputs from three different input streams:
 
 1. A directory of images, such as .png or .jpg
@@ -71,12 +73,13 @@ The demo script uses a helper class called `VideoStreamer` which can process inp
 
 
 ## Hyper-parameter configurations
-We use YACS to control the hyper parameters. The basic configuration files for testing are saved in the `config/test.yaml`.
+The basic configuration files for testing are saved in the `config/test_config.py`.
 
 ## Inference with pretrained models
 The pretrained models for TP-LSD-Res34(320), TP-LSD-Lite(320), TP-LSD-HG(512) can be downloaded from this link. Please place the weights into `<TP_LSD_root>/pretraineds`.
 - For testing, please run the following commad, you could modify the model used and the path of test images in `config/test_config.yaml`.
-`python test.py`
+
+- `python test.py`
 
 ## Metrics
 ### Line Matching Average Precision
@@ -85,7 +88,7 @@ See README.md in Metrics/LAP.
 
 ### Pixel based Metric
 The pixel based metric is to compare the detected line segment with the ground truth in a pixel-wise manner.
-See README.md in Metrics/FScore.
+See README.md in Metrics/PixelBased.
 
 ### Structural Average Precision
 sAP metrics uses the sum of squared error (LMS) between the predicted end-points and their ground truths as evaluation metric.

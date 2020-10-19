@@ -1,3 +1,19 @@
+# coding=utf-8
+# !/usr/bin/env python
+#
+# %BANNER_BEGIN%
+# ---------------------------------------------------------------------
+# %COPYRIGHT_BEGIN%
+#
+#  Modified from SuperPointPretrained Network from Magic Leap, Inc. ("COMPANY") CONFIDENTIAL
+#
+#  Unpublished Copyright (c) 2018
+#  Magic Leap, Inc., All Rights Reserved.
+#
+# %COPYRIGHT_END%
+# --------------------------------------------------------------------*/
+# %BANNER_END%
+
 import argparse
 import glob
 import numpy as np
