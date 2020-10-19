@@ -249,17 +249,3 @@ class Res160(nn.Module):
 
         outs.append({'center': center, 'dis': dis, 'line': line})
         return outs
-
-
-
-class ModelWithLoss(torch.nn.Module):
-    def __init__(self, model, loss, task):
-        super(ModelWithLoss, self).__init__()
-        self.model = model
-        self.loss = loss
-        self.task = task
-
-    def forward(self, batch, weight):
-        outputs = self.model(batch['input'])
-        loss, loss_stats = self.loss(batch, outputs, weight)
-        return outputs, torch.unsqueeze(loss, 0), loss_stats

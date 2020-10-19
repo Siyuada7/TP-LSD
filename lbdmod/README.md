@@ -16,7 +16,6 @@ mkdir build
 cd build
 cmake . ..
 make
-sudo make install
 ``` 
 Then the library will be built in the root folder, and the wrapper will be installed to the Python *dist-packages* folder.
 

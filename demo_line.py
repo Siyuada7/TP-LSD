@@ -94,8 +94,8 @@ class LineTracker(object):
       matches = [m for m, n in tmpmatches if m.distance < 20 and m.distance < n.distance * 0.7]
       matches = sorted(matches, key=lambda x: x.distance)
       if len(self.match_list) > self.maxnum:
-        self.match_list.pop() # 现在的点数比maxnum多
-      self.match_list.insert(0,matches) # 1 *　N 个匹配
+        self.match_list.pop()
+      self.match_list.insert(0,matches)
 
   def draw_tracks(self, out, max_match):
     """ Visualize tracks all overlayed on a single image.

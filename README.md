@@ -17,15 +17,12 @@ Here are the line detection and tracking results running on the ICL-NUIM dataset
 
 ## Dependencies
 1. DCNV2: See modeling/DCNv2/README.md
-2. imgaug: https://github.com/aleju/imgaug
-3. progress
-4. pycocotools
-5. pytorch 1.1.0
-6. tensorboardX 
-7. opencv-python
-8. lbdmod: See lbdmod/README.md
+2. lbdmod: See lbdmod/README.md
+3. pytorch ≥ 1.0
+4. opencv-python
 
-## Running the Demo
+
+## Running the Tracking Demo
 This demo will run the TP-LSD network on an image sequence and extract line segments from the images.  
 The tracks are formed by the `LineTracker` class which finds sequential pair-wise nearest neighbors using two-way matching of the lines' descriptors.
 The demo script uses a helper class called `VideoStreamer` which can process inputs from three different input streams:
@@ -51,32 +48,13 @@ The demo script uses a helper class called `VideoStreamer` which can process inp
 `python demo_line.py camera --camid=1 --method=tplsd`
 
 
-## Data preparation
-1.1 Evaluation Datasets
-  - Wireframe Dataset organized by COCO format, the annotation of lines is scaled to 512*512 resolution: https://drive.google.com/file/d/1T8knhqn0nUbz2xaDmqOKishHAQl8pvFJ/view?usp=sharing
-  - YorkUrban Dataset: http://www.elderlab.yorku.ca/resources/york-urban-line-segment-database-information/
+## Running the Inference Demo
+Prepare a directory of consequent images, such as .png or .jpg
 
-      Once the files are downloaded, please unzip them into `<TP_LSD_root>/data/wireframe` and `<TP_LSD_root>/data/york` respectively. The structures of wireframe and york folder are as follows:
-      >  Wireframe <br />
-      >  &emsp; - coco <br />
-      >  &emsp;&emsp; - images <br />
-      >  &emsp;&emsp;&emsp; - train2017 <br />
-      >  &emsp;&emsp;&emsp; - val2017 <br />
-      >  &emsp;&emsp; - annotations <br />
-      >  &emsp;&emsp;&emsp; - instances_train2017.json <br />
-      >  &emsp;&emsp;&emsp; - instances_val2017.json <br />
-      > York <br />
-      > &emsp; - images <br />
-      > &emsp; - GT <br />
-
-1.2 Image Sequence
-  - A directory of consequent images, such as .png or .jpg
-
-
-## Hyper-parameter configurations
+### Hyper-parameter configurations
 The basic configuration files for testing are saved in the `config/test_config.py`.
 
-## Inference with pretrained models
+### Inference with pretrained models
 The pretrained models for TP-LSD-Res34(320), TP-LSD-Res34(512), TP-LSD-Lite(320), TP-LSD-HG(512) can be downloaded from this link. Please place the weights into `<TP_LSD_root>/pretraineds`.
 - For testing, please run the following commad, you could modify the model used and the path of test images in `config/test_config.yaml`.
 

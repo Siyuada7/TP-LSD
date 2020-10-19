@@ -4,18 +4,17 @@ import numpy as np
 import sys
 from modeling.Hourglass import HourglassNet
 from modeling.TP_Net import Res160, Res320
-from modeling.loss import weightedLoss
 
 class BasicParam(object):
     def __init__(self):
         # path for images
-        self.dataset_dir = 'path for img dir'
+        self.dataset_dir = 'path for imgs'
 
         # path for results
         self.save_path = 'log/test/'
 
         self.batch_size = 1
-        self.num_workers = 1
+        self.num_workers = 0
         self.head = {'center': 1, 'dis': 4, 'line': 1}
         self.cuda = True
 
