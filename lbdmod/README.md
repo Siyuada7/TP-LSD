@@ -1,5 +1,7 @@
 # lbdmod
 
+Modified from https://github.com/alexandervakhitov/lbdmod
+
 A line detection & description pipeline based on the EDLines detector and LBD descriptor in the OpenCV implementation.
 
 To use, please 

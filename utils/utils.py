@@ -1,34 +1,5 @@
-import torch.nn as nn
-import os
-import time
 import torch
-import torchvision
-import numpy as np
-import cv2 as cv
-import json
-import scipy.io as sio
 
-def add_view_hm_ori(batch, outputs, phase, epoch, step, log_dir):
-    num_img = min(4, batch['input'].shape[0])
-    b, c, h, w = batch['line'].shape
-    img = torch.from_numpy(
-        np.array([cv.resize(im.permute(1, 2, 0).cpu().numpy(), (h, w)) for im in batch['input']])).permute(0, 3, 1,
-                                                                                                               2).cuda()
-    pic = torchvision.utils.make_grid(img[:num_img], nrow=num_img, padding=2)
-    label_center = torchvision.utils.make_grid(batch['center_mask'][:num_img]/5, nrow=num_img, padding=2)
-    label_line = torchvision.utils.make_grid(batch['line'][:num_img], nrow=num_img, padding=2)
-    mix_tmp = []
-    for output in outputs:
-        pred_center = torchvision.utils.make_grid(output['center'][:num_img], nrow=num_img, padding=2)
-        pred_line = torchvision.utils.make_grid(output['line'][:num_img], nrow=num_img, padding=2)
-        mix_tmp.append(torch.cat([pic, label_center, pred_center, label_line, pred_line], dim=1))
-
-    mix_pic = torch.cat([t for t in mix_tmp], dim=2)
-
-    save_dir = log_dir + '/' + str(epoch) + phase
-    os.makedirs(save_dir, exist_ok=True)
-    cv.imwrite(save_dir + '/' + str(int(step)) + '.png', mix_pic.permute(1, 2, 0).detach().cpu().numpy() * 255.)
-    return mix_pic
 
 def load_model(model, model_path, resume=False, selftrain=False):
     start_epoch = 0

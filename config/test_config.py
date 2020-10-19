@@ -9,11 +9,10 @@ from modeling.loss import weightedLoss
 class BasicParam(object):
     def __init__(self):
         # path for images
-        self.dataset_dir = '/media/uav514/AdaDisk/数据集/ICLdataset/ICL_NUIM/living_room_traj2_frei_png/rgb'
-        self.dataset_dir = '/media/uav514/AdaDisk/数据集/Euroc_dataset/V1_01_easy/mav0/rect/cam0'
+        self.dataset_dir = 'path for img dir'
 
         # path for results
-        self.save_path = 'log/testeur101/'
+        self.save_path = 'log/test/'
 
         self.batch_size = 1
         self.num_workers = 1
@@ -36,15 +35,8 @@ class BasicParam(object):
 
         os.makedirs(self.save_path, exist_ok=True)
         if self.cuda == False:
-            print('cpu version for training is not implemented.')
-            sys.exit()
-        # set gpu devices
-        # os.environ['CUDA_VISIBLE_DEVICES'] = self.gpus
-        # self.gpus = [i for i in range(len(self.gpus.split(',')))]
-        # if len(self.gpus) <= 0:
-        #     print('cpu version for training is not implemented.')
-        #     sys.exit()
-        # print("Set CUDA_VISIBLE_DEVICES to %s" % self.gpus)
+            raise Exception('cpu version for training is not implemented.')
+
 
 ''' Model choose
 self.model = Res320(self.head)

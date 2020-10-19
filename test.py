@@ -13,9 +13,8 @@ from utils.reconstruct import save_pic_mat, save_image
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 if device == 'cpu':
-    print('cpu version for training is not implemented.')
-    import sys
-    sys.exit()
+    raise Exception('cpu version for training is not implemented.')
+
 print('Using device: ', device)
 
 

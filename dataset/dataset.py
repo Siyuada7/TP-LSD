@@ -8,10 +8,9 @@ import random
 import copy
 import imgaug as ia
 from imgaug import augmenters as iaa
-from imgaug import parameters as iap
 
 
-class Wireframe(data.Dataset):
+class Wireframe(data.Dataset): # for training
     def __init__(self, split, param):
         super(Wireframe, self).__init__()
         self.param = param
