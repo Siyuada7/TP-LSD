@@ -68,7 +68,7 @@ def imshow(im):
 path = '/TP-LSD-result-path/lmbd0.5/0.01/*.mat'
 save_path = '/TP-LSD/wire'
 wire_path = 'data/Wireframe/coco/images/val2017/'
-york_path = 'data/York/img/'
+# york_path = 'data/York/img/'
 os.makedirs(save_path, exist_ok=True)
 mat_file = glob.glob(path)
 

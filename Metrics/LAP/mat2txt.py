@@ -10,7 +10,7 @@ import glob
 # path = 'data/York/GT/*_line.mat'
 # save_path = './groundtruths_york_line/'
 
-img_path = 'data/Wirefeame/coco/val2017/'
+img_path = 'data/Wirefeame/val2017/'
 path = 'data/Wirefeame/linemat/*_line.mat'
 save_path = './groundtruths_wire_line/'
 
