@@ -32,7 +32,8 @@ The demo script uses a helper class called `VideoStreamer` which can process inp
 3. A USB Webcam
 
 ### Additional useful command line parameters
-* Use `--method` to specify the method of line segments detection (default: lsd).
+* Use `--method` to specify the method of line segments detection (default: lsd, option: lsd, edlines, tplsd).
+* Use `--model` to specify choose the model to use (default: tp320, option: tp320, tplite, tp512, hg).
 * Use `--skip` to skip the first few images if the input is movie or directory (default: 1).
 * Use `--img_glob` to change the image file extension (default: *.png).
 * Press the `q` key to quit.

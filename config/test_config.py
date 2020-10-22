@@ -38,21 +38,25 @@ class BasicParam(object):
 
 
 ''' Model choose
+## TPLSD
 self.model = Res320(self.head)
 self.load_model_path = './pretraineds/Res320.pth'
 self.inres = (320, 320)
 self.outres = (320, 320)
 
+## TPLSD-Lite
 self.model = Res160(self.head)
 self.load_model_path = './pretraineds/Res160.pth'
 self.inres = (320, 320)
 self.outres = (320, 320)
 
+## TPLSD with 512 × 512 resolution
 self.model = Res320(self.head)
 self.load_model_path = './pretraineds/Res512.pth'
 self.inres = (512, 512)
 self.outres = (512, 512)
 
+## Hourglass
 self.model = HourglassNet(self.head)
 self.load_model_path = './pretraineds/HG128.pth'
 self.inres = (512, 512)

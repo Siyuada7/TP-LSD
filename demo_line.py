@@ -254,7 +254,7 @@ class VideoStreamer(object):
     return (input_image, image, True)
 
 class TplsdDetect:
-  def __init__(self):
+  def __init__(self, modeluse):
     from utils.utils import load_model
     from modeling.TP_Net import Res160, Res320
     from modeling.Hourglass import HourglassNet
@@ -264,21 +264,35 @@ class TplsdDetect:
       raise EOFError('cpu version for training is not implemented.')
     print('Using device: ', device)
     self.head = {'center': 1, 'dis': 4, 'line': 1}
-    self.model = load_model(Res320(self.head), './pretraineds/Res320.pth', False, False)
-    self.model = self.model.cuda().eval()
-    self.in_res = (320, 320)
+    if modeluse == 'tp320':
+        self.model = load_model(Res320(self.head), './pretraineds/Res320.pth')
+        self.in_res = (320, 320)
+    elif modeluse == 'tplite':
+        self.model = load_model(Res160(self.head), './pretraineds/Res160.pth')
+        self.in_res = (320, 320)
+    elif modeluse == 'tp512':
+        self.model = load_model(Res320(self.head), './pretraineds/Res512.pth')
+        self.in_res = (512, 512)
+    elif modeluse == 'hg':
+        self.model = load_model(HourglassNet(self.head), './pretraineds/HG128.pth')
+        self.in_res = (512, 512)
+    else:
+        raise EOFError('Please appoint the correct model (option: tp320, tplite, tp512, hg). ')
 
-  def getlines(self, outputs, oriimg):
+    self.model = self.model.cuda().eval()
+
+
+  def getlines(self, outputs, H, W, H_img, W_img):
     output = outputs[-1]
-    H, W = output['center'].shape[2:4]
     lines, start_point, end_point, pos, endtime = TPS_line(output, 0.25, 0.5, H, W)
-    W_ = oriimg.shape[1] / W
-    H_ = oriimg.shape[0] / H
+    W_ = W_img / W
+    H_ = H_img / H
     lines[:, [0, 2]] *= W_
     lines[:, [1, 3]] *= H_
     return lines
 
   def detect_tplsd(self, img):
+    H_img, W_img = img.shape[:2]
     inp = cv.resize(img, self.in_res)
     H, W, C = inp.shape
     hsv = cv.cvtColor(inp, cv.COLOR_BGR2HSV)
@@ -297,7 +311,7 @@ class TplsdDetect:
     inp = torch.from_numpy(inp.transpose(2, 0, 1)).unsqueeze(0).cuda()
     with torch.no_grad():
       outputs = self.model(inp)
-    lines = self.getlines(outputs, img)
+    lines = self.getlines(outputs, H, W, H_img, W_img)
     return lines
 
 
@@ -309,8 +323,10 @@ if __name__ == '__main__':
   parser = argparse.ArgumentParser(description='Line Demo.')
   parser.add_argument('input', type=str, default='',
       help='Image directory or movie file or "camera" (for webcam).')
+  parser.add_argument('--model', type=str, default='tplite',
+                      help='choose the pretrained model (option: tp320, tplite, tp512, hg).')
   parser.add_argument('--method', type=str, default='lsd',
-                      help='Line detection method. (default: lsd, edlines, tplsd)')
+                      help='Line detection method. (option: lsd, edlines, tplsd)')
   parser.add_argument('--camid', type=int, default=0,
       help='OpenCV webcam video capture ID, usually 0 or 1 (default: 0).')
   parser.add_argument('--img_glob', type=str, default='*.png',
@@ -339,9 +355,10 @@ if __name__ == '__main__':
     print('==> Detect Line Segments with EdLines.')
   elif opt.method == 'tplsd':
     print('==> Detect Line Segments with TP-LSD.')
-    tplsd = TplsdDetect()
+    tplsd = TplsdDetect(opt.model)
   else:
     raise EOFError('Please specify the method of line segment detection.')
+
 
   # Create a window to display the demo.
   win = 'Line Tracker'
@@ -366,13 +383,10 @@ if __name__ == '__main__':
       kls = pylbd.detect_edlines(img, 1, 1.44)
     elif opt.method == 'tplsd':
       kls = tplsd.detect_tplsd(oriimg)
-
-    des = pylbd.describe_with_lbd(img, kls, 1, 1.44)
-
-    tracker.update(kls, des)
-
     end1 = time.time()
 
+    des = pylbd.describe_with_lbd(img, kls, 1, 1.44)
+    tracker.update(kls, des)
     # Display visualization image to screen.
     out = oriimg
     tracker.draw_tracks(out,200)

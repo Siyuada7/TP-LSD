@@ -5,7 +5,6 @@ import torch
 import torchvision
 import numpy as np
 import cv2 as cv
-import json
 import scipy.io as sio
 
 def _nms(heat, kernel=3):
@@ -67,7 +66,7 @@ def save_pic_mat(lmbd, thresh, outputs, image, filename, log_path, save_mat=Fals
             end_coor = (int(end_point[i][0]), int(end_point[i][1]))
 
             cv.line(img_pred, start_coor, end_coor, (255, 255, 0), 1)
-            cv.circle(img_pred, start_coor, 2, (255, 0, 0), -1)  # 蓝
+            cv.circle(img_pred, start_coor, 2, (255, 0, 0), -1)
             cv.circle(img_pred, end_coor, 2, (0, 255, 0), -1)  # green
             cv.circle(img_pred, center_coor, 2, (0, 0, 255), -1)  # red
         center_cat = np.expand_dims(center * 255., 2).repeat(3, axis=2)
